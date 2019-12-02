@@ -1,0 +1,84 @@
+﻿<Window x:Class="TimeTrackerITU.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:TimeTrackerITU"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:converters="clr-namespace:TimeTrackerITU.Converters"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:viewModels="clr-namespace:TimeTrackerITU.ViewModels"
+        Title="Time tracker ITU" Height="512" Width="350"
+        d:DataContext="{}">
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+    </Window.Resources>
+
+    <Grid>
+
+        <StackPanel Visibility="{Binding ElementName=mainWindowRootLayout, Path=IsVisible}">
+            <TextBox></TextBox>
+            <TextBox></TextBox>
+            <Button  Command="{Binding ProceedLoginCommand}" >Login</Button>
+        </StackPanel>
+
+        <StackPanel x:Name="mainWindowRootLayout" Visibility="{Binding UserIsLoggedIn, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}">
+            <ComboBox ItemsSource="{Binding Path=RecentProjects}"  SelectedItem="{Binding Path=SelectedPoject}" />
+            <ComboBox ItemsSource="{Binding Path=RecentDescriptions}" SelectedItem="{Binding Path=SelectedDescription}" />
+
+            <Button>Start</Button>
+            <Button>Add time manually</Button>
+            <Button Command="{Binding OpenSettingsCommand}" >Settings</Button>
+
+            <ItemsControl Margin="20" ItemsSource="{Binding Entries}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button  Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                AncestorType={x:Type Window}}, Path=DataContext.OpenEntryDetailCommand}" CommandParameter="{Binding}" >
+                            <StackPanel>
+                                <TextBlock  Text="{Binding Description}"></TextBlock>
+                                <Button>
+                                    <TextBlock  Text="{Binding Project}"></TextBlock>
+                                </Button>
+                                <TextBlock  Text="{Binding Duration}"></TextBlock>
+                            </StackPanel>
+                           </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <Rectangle Fill="black" Opacity="0.8"  Visibility="{Binding OverlayIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" ></Rectangle>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="1"  Grid.Column="1" Background="White"  Visibility="{Binding SettingsAreOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}">
+                <Button Width="30" HorizontalAlignment="Right" Command="{Binding CloseSettingsCommand}" >x</Button>
+                <TextBlock>Some settings...</TextBlock>
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Left"  Command="{Binding ProceedLogoutCommand}" >Logout</Button>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1"  Grid.Column="1" Background="White"  Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}">
+                <Button Width="30" HorizontalAlignment="Right" Command="{Binding CloseEntryDetailCommand}" >x</Button>
+                <TextBlock  Text="{Binding SelectedEntry.Description,  Mode=TwoWay}"/>
+                <TextBlock  Text="{Binding SelectedEntry.Project,  Mode=TwoWay}"/>
+                <TextBlock  Text="{Binding SelectedEntry.StartTime,  Mode=TwoWay}"/>
+                <TextBlock  Text="{Binding SelectedEntry.EndTime,  Mode=TwoWay}"/>
+                <TextBlock  Text="{Binding SelectedEntry.Duration,  Mode=TwoWay}"/>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>
