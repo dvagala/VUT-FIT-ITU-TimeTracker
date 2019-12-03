@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 using TimeTrackerITU.ViewModels;
 
 namespace TimeTrackerITU.Windows
@@ -7,11 +8,15 @@ namespace TimeTrackerITU.Windows
     {
         public MainWindow()
         {
-            InitializeComponent();
 
+            InitializeComponent();   
             MainWindowViewModel viewmodel = new MainWindowViewModel();
-
             DataContext = viewmodel;
+        }
+
+        private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

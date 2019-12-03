@@ -12,14 +12,21 @@ using TimeTrackerITU.Helpers;
 
 namespace TimeTrackerITU.ViewModels
 {
+    
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+
         public ICommand ProceedLoginCommand { get; }
         public ICommand ProceedLogoutCommand { get; }
         public ICommand OpenSettingsCommand { get; }
         public ICommand CloseSettingsCommand { get; }
         public ICommand OpenEntryDetailCommand { get; }
         public ICommand CloseEntryDetailCommand { get; }
+        public ICommand OpenAddTimeManuallyCommand { get; }
+        public ICommand CloseAddTimeManuallyCommand { get; }
+        public ICommand OpenEditEntryCommand { get; }
+        public ICommand CloseEditEntryCommand { get; }
+
 
         public ObservableCollection<EntryModel> Entries { get; set; } = new SampleEntryModels();
 
@@ -76,6 +83,29 @@ namespace TimeTrackerITU.ViewModels
             }
         }
 
+
+
+        private bool addTimeManuallyIsOpen = false;
+        public bool AddTimeManuallyIsOpen
+        {
+            get => addTimeManuallyIsOpen; set
+            {
+                addTimeManuallyIsOpen = value;
+                OnPropertyChanged("AddTimeManuallyIsOpen");
+            }
+        }
+
+        private bool editEntryIsOpen = false;
+        public bool EditEntryIsOpen
+        {
+            get => editEntryIsOpen; set
+            {
+                editEntryIsOpen = value;
+                OnPropertyChanged("EditEntryIsOpen");
+            }
+        }
+
+
         private bool userIsLoggedIn = false;
         public bool UserIsLoggedIn
         {
@@ -94,6 +124,10 @@ namespace TimeTrackerITU.ViewModels
             CloseSettingsCommand = new AsyncCommand<string>(mockupString => CloseSettings());
             OpenEntryDetailCommand = new AsyncCommand<EntryModel>(selectedEntry => OpenEntryDetail(selectedEntry));
             CloseEntryDetailCommand = new AsyncCommand<EntryModel>(selectedEntry => CloseEntryDetail());
+            OpenAddTimeManuallyCommand = new AsyncCommand<string>(mockupString => OpenAddTimeManually());
+            CloseAddTimeManuallyCommand = new AsyncCommand<string>(mockupString => CloseAddTimeManually());
+            OpenEditEntryCommand = new AsyncCommand<string>(mockupString => OpenEditEntry());
+            CloseEditEntryCommand = new AsyncCommand<string>(mockupString => CloseEditEntry());
         }
 
 
@@ -120,6 +154,29 @@ namespace TimeTrackerITU.ViewModels
             OverlayIsOpen = false;
             SettingsAreOpen = false;
         }
+        public async Task OpenAddTimeManually()
+        {
+            OverlayIsOpen = true;
+            AddTimeManuallyIsOpen = true;
+        }
+
+        public async Task CloseAddTimeManually()
+        {
+            OverlayIsOpen = false;
+            AddTimeManuallyIsOpen = false;
+        }
+
+        public async Task OpenEditEntry()
+        {
+            OverlayIsOpen = true;
+            EditEntryIsOpen = true;
+        }
+
+        public async Task CloseEditEntry()
+        {
+            OverlayIsOpen = false;
+            EditEntryIsOpen = false;
+        }
 
 
         public async Task OpenEntryDetail(EntryModel selectedEntry)
@@ -134,6 +191,8 @@ namespace TimeTrackerITU.ViewModels
             OverlayIsOpen = false;
             EntryDetailIsOpen = false;
         }
+
+
 
 
 
