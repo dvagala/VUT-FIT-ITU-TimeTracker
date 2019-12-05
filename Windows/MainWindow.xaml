@@ -10,7 +10,7 @@
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         xmlns:viewModels="clr-namespace:TimeTrackerITU.ViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Time tracker ITU" Height="512" Width="350"
+        Title="Time tracker ITU" Height="512" Width="350" MinWidth="350"
         d:DataContext="{}">
 
 
@@ -19,7 +19,7 @@
     </Window.Resources>
 
     <Grid>
-        <StackPanel Visibility="{Binding UserIsNotLoggedIn, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}" RenderTransformOrigin="1.626,0.474">
+        <StackPanel Margin="0,70,0,0" Visibility="{Binding UserIsNotLoggedIn, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}" RenderTransformOrigin="1.626,0.474">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -79,7 +79,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="*"/>
@@ -91,7 +91,8 @@
                           IsEditable="True"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           ItemsSource="{Binding Path=RecentProjects}"
-                          Margin="10,0,0,0"/>
+                          Margin="10,0,0,0"
+                          VerticalAlignment="Top"/>
                 <!--SelectedItem="{Binding Path=SelectedPoject}"-->
                 <ComboBox Grid.Row="2" Grid.Column="0"
                           materialDesign:HintAssist.Hint="What are you working on?"
@@ -114,7 +115,8 @@
                 <Button Command="{Binding RunTimerCommand}"
                         Visibility="{Binding TimerIsStopped, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}"
                         Grid.Row="1" Grid.Column="2"
-                        Style="{StaticResource MaterialDesignRaisedButton}">
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        VerticalAlignment="Bottom">
                     Start
                 </Button>
                 <Button Command="{Binding StopTimerCommand}"
@@ -136,19 +138,50 @@
                 </Button>
             </Grid>
 
-            <ItemsControl Margin="20" ItemsSource="{Binding Entries}">
+            <TextBlock Margin="20,20,0,0">You have worked 20 hours and 12 minutes this month</TextBlock>
+
+            <ItemsControl Margin="20" ItemsSource="{Binding Entries}" Grid.IsSharedSizeScope="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button  Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                            AncestorType={x:Type Window}}, Path=DataContext.OpenEntryDetailCommand}" CommandParameter="{Binding}" >
-                            <StackPanel>
-                                <TextBlock  Text="{Binding Description}"></TextBlock>
-                                <Button >
-                                    <TextBlock  Text="{Binding Project}"></TextBlock>
+                        <Border BorderThickness="2 0 0 0" BorderBrush="Black">
+                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                          AncestorType={x:Type Window}}, Path=DataContext.OpenEntryDetailCommand}" CommandParameter="{Binding}" 
+                                Height="70"
+                                MinWidth="300"
+                                Background="White"
+                                Foreground="Black"
+                                BorderBrush="White"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="MaterialDesignFlatButton">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MinWidth="140"/>
+                                    <ColumnDefinition MinWidth="10"/>
+                                    <ColumnDefinition MinWidth="150"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" 
+                                           Text="{Binding Description}"
+                                           HorizontalAlignment="left"
+                                           VerticalAlignment="Top">
+                                </TextBlock>
+                                <Button Grid.Row="1" Grid.Column="0" 
+                                        Background="{Binding Color}"
+                                        VerticalAlignment="Top"
+                                        Height="25"
+                                        FontSize="13">
+                                    <TextBlock Text="{Binding Project}"></TextBlock>
                                 </Button>
-                                <TextBlock  Text="{Binding Duration}"></TextBlock>
-                            </StackPanel>
+                                <TextBlock Grid.Row="0" Grid.Column="2" 
+                                           Text="{Binding Duration}"
+                                           HorizontalAlignment="Center">
+                                </TextBlock>
+                            </Grid>
                         </Button>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

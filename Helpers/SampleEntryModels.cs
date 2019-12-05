@@ -19,7 +19,8 @@ namespace TimeTrackerITU.Helpers
                 Project = "ITU project",
                 StartTime = new DateTime(2008, 3, 9, 16, 5, 7, 123),
                 EndTime = new DateTime(2008, 3, 9, 18, 5, 7, 123),
-                Duration = new TimeSpan(2, 14, 23)
+                Duration = new TimeSpan(2, 14, 23),
+                Color = "Green"
             };
             this.Add(entryModel);
 
@@ -30,7 +31,8 @@ namespace TimeTrackerITU.Helpers
                 Project = "Secret",
                 StartTime = new DateTime(2008, 3, 9, 10, 5, 7, 123),
                 EndTime = new DateTime(2008, 3, 9, 13, 5, 7, 123),
-                Duration = new TimeSpan(4, 04, 53)
+                Duration = new TimeSpan(4, 04, 53),
+                Color = "Orange"
             };
             this.Add(entryModel);
 
@@ -40,7 +42,8 @@ namespace TimeTrackerITU.Helpers
                 Project = "redhat satelite",
                 StartTime = new DateTime(2008, 3, 9, 16, 5, 7, 123),
                 EndTime = new DateTime(2008, 3, 9, 18, 5, 7, 123),
-                Duration = new TimeSpan(4, 04, 53)
+                Duration = new TimeSpan(4, 04, 53),
+                Color = "Red"
             };
             this.Add(entryModel);
         }
