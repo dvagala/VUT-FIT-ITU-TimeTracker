@@ -100,7 +100,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Helpers\SampleUserModels.cs" />
     <Compile Include="Helpers\SampleEntryModels.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\EntryModel.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\IAsyncCommand.cs" />

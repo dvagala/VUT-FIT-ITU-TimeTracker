@@ -26,9 +26,13 @@ namespace TimeTrackerITU.ViewModels
         public ICommand CloseAddTimeManuallyCommand { get; }
         public ICommand OpenEditEntryCommand { get; }
         public ICommand CloseEditEntryCommand { get; }
+        public ICommand RunTimerCommand { get; }
+        public ICommand StopTimerCommand { get; }
 
 
         public ObservableCollection<EntryModel> Entries { get; set; } = new SampleEntryModels();
+
+        public ObservableCollection<UserModel> Users { get; set; } = new SampleUserModels();
 
         public ObservableCollection<String> RecentProjects { get; set; } = new ObservableCollection<String>() { "ITU project", "redhat satelite" };
 
@@ -116,6 +120,36 @@ namespace TimeTrackerITU.ViewModels
             }
         }
 
+        private bool userIsNotLoggedIn = true;
+        public bool UserIsNotLoggedIn
+        {
+            get => userIsNotLoggedIn; set
+            {
+                userIsNotLoggedIn = value;
+                OnPropertyChanged("UserIsNotLoggedIn");
+            }
+        }
+
+        private bool timerIsRunning = false;
+        public bool TimerIsRunning
+        {
+            get => timerIsRunning; set
+            {
+                timerIsRunning = value;
+                OnPropertyChanged("TimerIsRunning");
+            }
+        }
+
+        private bool timerIsStopped = true;
+        public bool TimerIsStopped
+        {
+            get => timerIsStopped; set
+            {
+                timerIsStopped = value;
+                OnPropertyChanged("TimerIsStopped");
+            }
+        }
+
         public MainWindowViewModel()
         {
             ProceedLoginCommand = new AsyncCommand<string>(mockupString => ProceedLogin());
@@ -128,6 +162,8 @@ namespace TimeTrackerITU.ViewModels
             CloseAddTimeManuallyCommand = new AsyncCommand<string>(mockupString => CloseAddTimeManually());
             OpenEditEntryCommand = new AsyncCommand<string>(mockupString => OpenEditEntry());
             CloseEditEntryCommand = new AsyncCommand<string>(mockupString => CloseEditEntry());
+            RunTimerCommand = new AsyncCommand<string>(mockupString => RunTimer());
+            StopTimerCommand = new AsyncCommand<string>(mockupString => StopTimer());
         }
 
 
@@ -135,12 +171,15 @@ namespace TimeTrackerITU.ViewModels
         public async Task ProceedLogout()
         {
             UserIsLoggedIn = false;
+            UserIsNotLoggedIn = true;
             CloseSettings();
+            StopTimer();
         }
 
         public async Task ProceedLogin()
         {
             UserIsLoggedIn = true;
+            UserIsNotLoggedIn = false;
         }
 
         public async Task OpenSettings()
@@ -191,8 +230,16 @@ namespace TimeTrackerITU.ViewModels
             OverlayIsOpen = false;
             EntryDetailIsOpen = false;
         }
-
-
+        public async Task RunTimer()
+        {
+            TimerIsRunning = true;
+            TimerIsStopped = false;
+        }
+        public async Task StopTimer()
+        {
+            TimerIsRunning = false;
+            TimerIsStopped = true;
+        }
 
 
 
