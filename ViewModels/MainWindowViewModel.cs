@@ -38,8 +38,8 @@ namespace TimeTrackerITU.ViewModels
 
         public string SelectedDescription { get; set; } = "Doing backed";
 
-
         
+
         private EntryModel selectedEntry = new EntryModel();
         public EntryModel SelectedEntry 
         {
@@ -203,4 +203,6 @@ namespace TimeTrackerITU.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+
 }

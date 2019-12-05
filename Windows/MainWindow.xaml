@@ -16,16 +16,17 @@
 
     <Window.Resources>
         <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
-
+        
     </Window.Resources>
-
+    
 
     <Grid>
 
         <StackPanel Visibility="{Binding ElementName=mainWindowRootLayout, Path=IsVisible}" RenderTransformOrigin="1.626,0.474">
-            <TextBox></TextBox>
-            <TextBox></TextBox>
-            <Button  Command="{Binding ProceedLoginCommand}" >Login</Button>
+            <TextBox PreviewMouseLeftButtonDown="employeeText_MouseLeftButtonDown" Name="employeeText" Foreground="#FF979797" Margin="20,30,0,10" HorizontalAlignment="Left" Width="150" RenderTransformOrigin="-0.15,2.32" >Employee number</TextBox>
+            <TextBox PreviewMouseLeftButtonDown="passwordText_MouseLeftButtonDown" Margin="20,15,0,10" Name ="passwordText" HorizontalAlignment="Left" Width="130" RenderTransformOrigin="-0.15,2.32" Foreground="#FF979797">Enter password</TextBox>
+            <Button Margin="0,30,0,0" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100" Command="{Binding ProceedLoginCommand}" >Login</Button>
+
         </StackPanel>
 
         <StackPanel x:Name="mainWindowRootLayout" Visibility="{Binding UserIsLoggedIn, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}">
@@ -68,22 +69,25 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1"  Grid.Column="2" Background="White"  Visibility="{Binding SettingsAreOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="-1.488,0.519" Margin="101,4,-237,65" Grid.RowSpan="2">
+            <StackPanel Grid.Row="1" Background="White"  Visibility="{Binding SettingsAreOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="-1.488,0.519" Margin="1,4,0,65" Grid.Column="1" Grid.RowSpan="2">
 
                 <Button Padding="0" Height="20" Width="20" Background="White" BorderBrush="White" HorizontalAlignment="Right" Foreground="Black" FontSize="16" Command="{Binding CloseSettingsCommand}" Content="X" RenderTransformOrigin="0.45,-0.85"></Button>
                 <TextBlock Margin="10,15,0,0" ><Run Text="Idle detection                             "/><CheckBox x:Name="Checkbox1" Background="#FF0027D4"  IsChecked="True" BorderBrush="#FF0327C9"/></TextBlock>
+                <TextBlock PreviewMouseLeftButtonDown="upArrow_MouseLeftButtonDown"  Margin="0,0,45,0" HorizontalAlignment="Right">^</TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="10,15,0,0" Text="Turn off timer after "/>
-                    <TextBox TextAlignment="Center" Margin="25,10,0,0" BorderThickness="1" Width="25" Height="25" RenderTransformOrigin="0.45,1.632">15</TextBox>
-                    <TextBlock Margin="3,10,0,0" Height="17">mins</TextBlock>
+                    <TextBlock Margin="10,4,0,0" Text="Turn off timer after "/>
+                    
+                    <TextBox Name="timerAfterText" TextAlignment="Center" Margin="25,0,0,0" BorderThickness="1" Width="25" Height="25" RenderTransformOrigin="0.45,1.632">15</TextBox>
+                    <TextBlock Margin="3,0,0,0" Height="17">mins</TextBlock>
                 </StackPanel>
+                <TextBlock PreviewMouseLeftButtonDown="downArrow_MouseLeftButtonDown" Margin="0,0,46,0" HorizontalAlignment="Right">v</TextBlock>
 
 
                 <Button Foreground="Red" Background="White" Margin="10,15,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Command="{Binding ProceedLogoutCommand}" BorderBrush="White" >Logout</Button>
                 <Button  Background="#0050BC" Margin="10,100,0,0" Width="75" VerticalAlignment="Bottom" HorizontalAlignment="Center"  Command="{Binding CloseSettingsCommand}" >OK</Button>
             </StackPanel>
 
-            <StackPanel Grid.Row="1"  Grid.Column="2" Background="White"  Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" Margin="101,0,-237,0">
+            <StackPanel Grid.Row="1"  Grid.Column="2" Background="White"  Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" Margin="363,8,-499,61" Grid.RowSpan="2" RenderTransformOrigin="-3.351,0.36">
                 <Button Width="30" HorizontalAlignment="Right" Command="{Binding CloseEntryDetailCommand}" >x</Button>
                 <TextBlock  Text="{Binding SelectedEntry.Description,  Mode=TwoWay}"/>
                 <TextBlock  Text="{Binding SelectedEntry.Project,  Mode=TwoWay}"/>
@@ -92,32 +96,32 @@
                 <TextBlock  Text="{Binding SelectedEntry.Duration,  Mode=TwoWay}"/>
             </StackPanel>
 
-            <StackPanel  Grid.Column="2" Background="White"  Visibility="{Binding  AddTimeManuallyIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="1.951,0.533" Grid.Row="1" Margin="101,4,-237,65" Grid.RowSpan="2">
+            <StackPanel Background="White"  Visibility="{Binding  AddTimeManuallyIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="1.951,0.533" Grid.Row="1" Margin="-336,8,198,61" Grid.RowSpan="2">
                 <Button Padding="0" Height="20" Width="20" Background="White" BorderBrush="White" HorizontalAlignment="Right" Foreground="Black" FontSize="16" Command="{Binding CloseAddTimeManuallyCommand}" Content="X" RenderTransformOrigin="0.45,-0.85"></Button>
-                <ComboBox Margin="20,10,0,0" IsEditable = "True" Text="What were you doing?" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Width="140" HorizontalAlignment="Left" ItemsSource="{Binding Path=RecentDescriptions}" SelectedItem="{Binding Path=SelectedDescription}" RenderTransformOrigin="0.76,0.475"  >
+                <ComboBox Margin="20,10,0,0" IsEditable = "True"  Text="What were you doing?" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Width="140" HorizontalAlignment="Left" ItemsSource="{Binding Path=RecentDescriptions}" SelectedItem="{Binding Path=SelectedDescription}" RenderTransformOrigin="0.76,0.475"  >
                 </ComboBox>
                 <ComboBox  Margin="20,10,0,0" IsEditable = "True" Text="Select project" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Width="140" HorizontalAlignment="Left" ItemsSource="{Binding Path=RecentProjects}"  SelectedItem="{Binding Path=SelectedPoject}" />
-                <StackPanel Orientation="Horizontal" Height="50">
-                    <TextBox BorderThickness="0" Margin="20,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">12:43</TextBox>
+                <StackPanel Orientation="Horizontal" Height="50" >
+                    <TextBox PreviewMouseLeftButtonDown="sinceText_MouseLeftButtonDown" Name="sinceText" Foreground="#FF979797"  Margin="20,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">12:43</TextBox>
                     <TextBlock Margin="2,20,0,10" Width="4">-</TextBlock>
-                    <TextBox BorderThickness="0" Margin="5,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">16:07</TextBox>
+                    <TextBox PreviewMouseLeftButtonDown="untilText_MouseLeftButtonDown" Name="untilText" Foreground="#FF979797"  Margin="5,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">16:07</TextBox>
                     <DatePicker BorderThickness="0" HorizontalAlignment="Left" Margin="2,15,0,0" Width="20" VerticalAlignment="Top"/>
-                    <TextBox BorderThickness="1" Margin="15,15,0,10" TextAlignment="Center" Width="40" RenderTransformOrigin="-0.15,2.32">4:51</TextBox>
+                    <TextBox PreviewMouseLeftButtonDown="sumText1_MouseLeftButtonDown"  Foreground="#FF979797" Name="sumText1"  BorderThickness="1" Margin="15,15,0,10" TextAlignment="Center" Width="40" RenderTransformOrigin="-0.15,2.32">4:51</TextBox>
                 </StackPanel>
                 <Button Margin="35" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100">Add Entry</Button>
             </StackPanel>
 
-            <StackPanel  Grid.Column="1" Background="White"  Visibility="{Binding  EditEntryIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="1.951,0.533" Grid.Row="1">
+            <StackPanel Background="White"  Visibility="{Binding  EditEntryIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="1.951,0.533" Grid.Row="1" Margin="205,4,-340,65" Grid.Column="2" Grid.RowSpan="2">
                 <Button Padding="0" Height="20" Width="20" Background="White" BorderBrush="White" HorizontalAlignment="Right" Foreground="Black" FontSize="16" Command="{Binding CloseEditEntryCommand}" Content="X" RenderTransformOrigin="0.45,-0.85"></Button>
                 <ComboBox Margin="20,10,0,0" IsEditable = "True" Text="What were you doing?" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Width="140" HorizontalAlignment="Left" ItemsSource="{Binding Path=RecentDescriptions}" SelectedItem="{Binding Path=SelectedDescription}" RenderTransformOrigin="0.76,0.475"  >
                 </ComboBox>
                 <ComboBox  Margin="20,10,0,0" IsEditable = "True" Text="Select project" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Width="140" HorizontalAlignment="Left" ItemsSource="{Binding Path=RecentProjects}"  SelectedItem="{Binding Path=SelectedPoject}" />
                 <StackPanel Orientation="Horizontal" Height="50">
-                    <TextBox BorderThickness="0" Margin="20,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">12:43</TextBox>
+                    <TextBox PreviewMouseLeftButtonDown="sinceText1_MouseLeftButtonDown"  Foreground="#FF979797" Name="sinceText1" BorderThickness="0" Margin="20,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">12:43</TextBox>
                     <TextBlock Margin="2,20,0,10" Width="4">-</TextBlock>
-                    <TextBox BorderThickness="0" Margin="5,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">16:07</TextBox>
+                    <TextBox PreviewMouseLeftButtonDown="untilText1_MouseLeftButtonDown"  Foreground="#FF979797" Name="untilText1" BorderThickness="0" Margin="5,15,0,10" HorizontalAlignment="Left" Width="30" RenderTransformOrigin="-0.15,2.32">16:07</TextBox>
                     <DatePicker BorderThickness="0" HorizontalAlignment="Left" Margin="2,15,0,0" Width="20" VerticalAlignment="Top"/>
-                    <TextBox BorderThickness="1" Margin="15,15,0,10" TextAlignment="Center" Width="40" RenderTransformOrigin="-0.15,2.32">4:51</TextBox>
+                    <TextBox PreviewMouseLeftButtonDown="sumText_MouseLeftButtonDown"  Foreground="#FF979797" Name="sumText" BorderThickness="1" Margin="15,15,0,10" TextAlignment="Center" Width="40" RenderTransformOrigin="-0.15,2.32">4:51</TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Height="110">
                     <Button Margin="35,35,0,35" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100">Update Entry</Button>
@@ -126,6 +130,8 @@
                     </Button>
                 </StackPanel>
             </StackPanel>
+
+
         </Grid>
 
 
