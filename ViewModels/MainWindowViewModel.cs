@@ -30,6 +30,10 @@ namespace TimeTrackerITU.ViewModels
         public ICommand StopTimerCommand { get; }
         public ICommand OpenProjectOverviewCommand { get; }
         public ICommand CloseProjectOverviewCommand { get; }
+        public ICommand OpenEditStartTimeCommand { get; }
+        public ICommand CloseEditStartTimeCommand { get; }
+        
+
 
 
         public ObservableCollection<EntryModel> Entries { get; set; } = new SampleEntryModels();
@@ -161,6 +165,16 @@ namespace TimeTrackerITU.ViewModels
                 OnPropertyChanged("EditEntryIsOpen");
             }
         }
+      
+        private bool editStartTimeIsOpen = false;
+        public bool EditStartTimeIsOpen
+        {
+            get => editStartTimeIsOpen; set
+            {
+                editStartTimeIsOpen = value;
+                OnPropertyChanged("EditStartTimeIsOpen");
+            }
+        }
 
         public MainWindowViewModel()
         {
@@ -178,6 +192,8 @@ namespace TimeTrackerITU.ViewModels
             StopTimerCommand = new AsyncCommand<string>(mockupString => StopTimer());
             OpenProjectOverviewCommand = new AsyncCommand<string>(mockupString => OpenProjectOverview());
             CloseProjectOverviewCommand = new AsyncCommand<string>(mockupString => CloseProjectOverview());
+            OpenEditStartTimeCommand = new AsyncCommand<string>(mockupString => OpenEditStartTime());
+            CloseEditStartTimeCommand = new AsyncCommand<string>(mockupString => CloseEditStartTime());
         }
 
 
@@ -265,6 +281,16 @@ namespace TimeTrackerITU.ViewModels
             OverlayIsOpen = false;
         }
 
+        public async Task OpenEditStartTime()
+        {
+            EditStartTimeIsOpen = true;
+            OverlayIsOpen = true;
+        }
+        public async Task CloseEditStartTime()
+        {
+            EditStartTimeIsOpen = false;
+            OverlayIsOpen = false;
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

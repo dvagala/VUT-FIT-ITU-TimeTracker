@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TimeTrackerITU.ViewModels;
@@ -15,58 +16,64 @@ namespace TimeTrackerITU.Windows
             MainWindowViewModel viewmodel = new MainWindowViewModel();
             DataContext = viewmodel;
         }
-        
-        private void sinceText_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        private void arrowControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-            sinceText.Text = "";
-            sinceText.Foreground = new SolidColorBrush(Colors.Black);
-        }
-        private void untilText_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            untilText.Text = "";
-            untilText.Foreground = new SolidColorBrush(Colors.Black);
-        }
-
-        private void sinceText1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            sinceText1.Text = "";
-            sinceText1.Foreground = new SolidColorBrush(Colors.Black);
-        }
-        private void untilText1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            untilText1.Text = "";
-            untilText1.Foreground = new SolidColorBrush(Colors.Black);
-        }
-
-        private void sumText_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            sumText.Text = "";
-            sumText.Foreground = new SolidColorBrush(Colors.Black);
-        }
-        private void sumText1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            sumText1.Text = "";
-            sumText1.Foreground = new SolidColorBrush(Colors.Black);
-        }
-
-        private void upArrow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            timerAfterText.Text = (Int32.Parse(timerAfterText.Text) + 1).ToString();
-        }
-        private void downArrow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if(Int32.Parse(timerAfterText.Text) > 0)
+            TextBlock blockObject = (TextBlock)sender;
+            switch (blockObject.Name)
             {
-                timerAfterText.Text = (Int32.Parse(timerAfterText.Text) - 1).ToString();
+                case "timerUp":
+                    timerAfterText.Text = (Int32.Parse(timerAfterText.Text) + 1).ToString();
+                    break;
+                case "timerDown":
+                    if(Int32.Parse(timerAfterText.Text) > 0)
+                    timerAfterText.Text = (Int32.Parse(timerAfterText.Text) - 1).ToString();
+                    break;
+                case "hourUp":
+                    if (Int32.Parse(hourEdit.Text) >= 24)
+                    {
+                        hourEdit.Text = "1";
+                    }
+                    else
+                    {
+                        hourEdit.Text = (Int32.Parse(hourEdit.Text) + 1).ToString();
+                    }
+                    break;
+                case "hourDown":
+                    if (Int32.Parse(hourEdit.Text) <= 1)
+                    {
+                        hourEdit.Text = "24";
+                    }
+                    else
+                    {
+                        hourEdit.Text = (Int32.Parse(hourEdit.Text) - 1).ToString();
+                    }
+                    break;
+                case "minutesUp":
+                    if (Int32.Parse(minutesEdit.Text) >= 59)
+                    {
+                        minutesEdit.Text = "0";
+                    }
+                    else
+                    {
+                        minutesEdit.Text = (Int32.Parse(minutesEdit.Text) + 1).ToString();
+                    }
+                    break;
+                case "minutesDown":
+                    if (Int32.Parse(minutesEdit.Text) <= 0)
+                    {
+                        minutesEdit.Text = "59";
+                    }
+                    else
+                    {
+                        minutesEdit.Text = (Int32.Parse(minutesEdit.Text) - 1).ToString();
+                    }
+                    break;
+
 
             }
+
+            
         }
 
 
