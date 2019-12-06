@@ -50,7 +50,7 @@ namespace TimeTrackerITU.Windows
                     }
                     break;
                 case "minutesUp":
-                    if (Int32.Parse(minutesEdit.Text) >= 59)
+                    if (Int32.Parse(minutesEdit.Text) >= 60)
                     {
                         minutesEdit.Text = "0";
                     }

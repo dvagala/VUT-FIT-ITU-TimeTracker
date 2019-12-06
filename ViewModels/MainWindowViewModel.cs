@@ -32,7 +32,8 @@ namespace TimeTrackerITU.ViewModels
         public ICommand CloseProjectOverviewCommand { get; }
         public ICommand OpenEditStartTimeCommand { get; }
         public ICommand CloseEditStartTimeCommand { get; }
-        
+        public ICommand AddNewEntryCommand { get; }
+
 
 
 
@@ -47,6 +48,7 @@ namespace TimeTrackerITU.ViewModels
         public string SelectedPoject { get; set; } = "ITU project";
 
         public string SelectedDescription { get; set; } = "Doing backed";
+
 
         
 
@@ -196,8 +198,7 @@ namespace TimeTrackerITU.ViewModels
             CloseEditStartTimeCommand = new AsyncCommand<string>(mockupString => CloseEditStartTime());
         }
 
-
-
+        
         public async Task ProceedLogout()
         {
             UserIsLoggedIn = false;
