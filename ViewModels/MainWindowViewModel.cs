@@ -28,6 +28,8 @@ namespace TimeTrackerITU.ViewModels
         public ICommand CloseEditEntryCommand { get; }
         public ICommand RunTimerCommand { get; }
         public ICommand StopTimerCommand { get; }
+        public ICommand OpenProjectOverviewCommand { get; }
+        public ICommand CloseProjectOverviewCommand { get; }
 
 
         public ObservableCollection<EntryModel> Entries { get; set; } = new SampleEntryModels();
@@ -150,6 +152,16 @@ namespace TimeTrackerITU.ViewModels
             }
         }
 
+        private bool projectOverviewIsOpen = false;
+        public bool ProjectOverviewIsOpen
+        {
+            get => projectOverviewIsOpen; set
+            {
+                projectOverviewIsOpen = value;
+                OnPropertyChanged("EditEntryIsOpen");
+            }
+        }
+
         public MainWindowViewModel()
         {
             ProceedLoginCommand = new AsyncCommand<string>(mockupString => ProceedLogin());
@@ -164,6 +176,8 @@ namespace TimeTrackerITU.ViewModels
             CloseEditEntryCommand = new AsyncCommand<string>(mockupString => CloseEditEntry());
             RunTimerCommand = new AsyncCommand<string>(mockupString => RunTimer());
             StopTimerCommand = new AsyncCommand<string>(mockupString => StopTimer());
+            OpenProjectOverviewCommand = new AsyncCommand<string>(mockupString => OpenProjectOverview());
+            CloseProjectOverviewCommand = new AsyncCommand<string>(mockupString => CloseProjectOverview());
         }
 
 
@@ -239,6 +253,16 @@ namespace TimeTrackerITU.ViewModels
         {
             TimerIsRunning = false;
             TimerIsStopped = true;
+        }
+        public async Task OpenProjectOverview()
+        {
+            ProjectOverviewIsOpen = true;
+            OverlayIsOpen = true;
+        }
+        public async Task CloseProjectOverview()
+        {
+            ProjectOverviewIsOpen = false;
+            OverlayIsOpen = false;
         }
 
 

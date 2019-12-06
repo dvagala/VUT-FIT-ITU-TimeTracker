@@ -93,7 +93,6 @@
                           ItemsSource="{Binding Path=RecentProjects}"
                           Margin="10,0,0,0"
                           VerticalAlignment="Top"/>
-                <!--SelectedItem="{Binding Path=SelectedPoject}"-->
                 <ComboBox Grid.Row="2" Grid.Column="0"
                           materialDesign:HintAssist.Hint="What are you working on?"
                           materialDesign:TextFieldAssist.HasFilledTextField="True"
@@ -101,7 +100,6 @@
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           ItemsSource="{Binding Path=RecentDescriptions}"
                           Margin="10,0,0,0"/>
-                <!--SelectedItem="{Binding Path=SelectedDescription}"-->
 
                 <Button Command="{Binding OpenSettingsCommand}" 
                         Style="{StaticResource MaterialDesignIconButton}"
@@ -219,13 +217,34 @@
                 <Button  Background="#0050BC" Margin="10,100,0,0" Width="75" VerticalAlignment="Bottom" HorizontalAlignment="Center"  Command="{Binding CloseSettingsCommand}" >OK</Button>
             </StackPanel>
 
-            <StackPanel Grid.Row="1"  Grid.Column="1" Background="White"  Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" Margin="1,0,0,0">
-                <Button Width="30" HorizontalAlignment="Right" Command="{Binding CloseEntryDetailCommand}" >x</Button>
-                <TextBlock  Text="{Binding SelectedEntry.Description,  Mode=TwoWay}"/>
-                <TextBlock  Text="{Binding SelectedEntry.Project,  Mode=TwoWay}"/>
-                <TextBlock  Text="{Binding SelectedEntry.StartTime,  Mode=TwoWay}"/>
-                <TextBlock  Text="{Binding SelectedEntry.EndTime,  Mode=TwoWay}"/>
-                <TextBlock  Text="{Binding SelectedEntry.Duration,  Mode=TwoWay}"/>
+            <StackPanel Grid.Row="1" Grid.Column="1" 
+                        Background="White"  
+                        Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" 
+                        Margin="1,0,0,0">
+                <Button Padding="0" Width="30" Height="30"
+                        FontSize="16" Foreground="White" 
+                        HorizontalAlignment="Right" 
+                        Command="{Binding CloseEntryDetailCommand}"
+                        Style="{StaticResource MaterialDesignRaisedButton}">
+                    X
+                </Button>
+                <TextBlock Text="{Binding SelectedEntry.Project,  Mode=TwoWay}"/>
+                <TextBlock>
+                    <Run Text="Task: "/>
+                    <Run Text="{Binding SelectedEntry.Description,  Mode=TwoWay}"/>
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Start: "/>
+                    <Run Text="{Binding SelectedEntry.StartTime,  Mode=TwoWay}"/>
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Stop: "/>
+                    <Run Text="{Binding SelectedEntry.EndTime,  Mode=TwoWay}"/>
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Duration: "/>
+                    <Run Text="{Binding SelectedEntry.Duration,  Mode=TwoWay}"/>
+                </TextBlock>
             </StackPanel>
 
             <StackPanel Background="White"  Visibility="{Binding  AddTimeManuallyIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="1.951,0.533" Grid.Row="1" Margin="66,0,2,0" Grid.ColumnSpan="2">
