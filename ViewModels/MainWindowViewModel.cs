@@ -244,10 +244,16 @@ namespace TimeTrackerITU.ViewModels
 
         public async Task CloseEditEntry()
         {
-            OverlayIsOpen = false;
+            if (EntryDetailIsOpen)
+            {
+                OverlayIsOpen = true;
+            }
+            else
+            {
+                OverlayIsOpen = false;
+            }
             EditEntryIsOpen = false;
         }
-
 
         public async Task OpenEntryDetail(EntryModel selectedEntry)
         {
