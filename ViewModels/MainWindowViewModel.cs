@@ -164,7 +164,7 @@ namespace TimeTrackerITU.ViewModels
             get => projectOverviewIsOpen; set
             {
                 projectOverviewIsOpen = value;
-                OnPropertyChanged("EditEntryIsOpen");
+                OnPropertyChanged("ProjectOverviewIsOpen");
             }
         }
       
@@ -192,8 +192,8 @@ namespace TimeTrackerITU.ViewModels
             CloseEditEntryCommand = new AsyncCommand<string>(mockupString => CloseEditEntry());
             RunTimerCommand = new AsyncCommand<string>(mockupString => RunTimer());
             StopTimerCommand = new AsyncCommand<string>(mockupString => StopTimer());
-            OpenProjectOverviewCommand = new AsyncCommand<string>(mockupString => OpenProjectOverview());
-            CloseProjectOverviewCommand = new AsyncCommand<string>(mockupString => CloseProjectOverview());
+            OpenProjectOverviewCommand = new AsyncCommand<EntryModel>(selectedEntry => OpenProjectOverview(selectedEntry));
+            CloseProjectOverviewCommand = new AsyncCommand<EntryModel>(selectedEntry => CloseProjectOverview());
             OpenEditStartTimeCommand = new AsyncCommand<string>(mockupString => OpenEditStartTime());
             CloseEditStartTimeCommand = new AsyncCommand<string>(mockupString => CloseEditStartTime());
         }
@@ -224,6 +224,7 @@ namespace TimeTrackerITU.ViewModels
             OverlayIsOpen = false;
             SettingsAreOpen = false;
         }
+
         public async Task OpenAddTimeManually()
         {
             OverlayIsOpen = true;
@@ -267,21 +268,26 @@ namespace TimeTrackerITU.ViewModels
             OverlayIsOpen = false;
             EntryDetailIsOpen = false;
         }
+
         public async Task RunTimer()
         {
             TimerIsRunning = true;
             TimerIsStopped = false;
         }
+
         public async Task StopTimer()
         {
             TimerIsRunning = false;
             TimerIsStopped = true;
         }
-        public async Task OpenProjectOverview()
+
+        public async Task OpenProjectOverview(EntryModel selectedEntry)
         {
+            SelectedEntry = selectedEntry;
             ProjectOverviewIsOpen = true;
             OverlayIsOpen = true;
         }
+
         public async Task CloseProjectOverview()
         {
             ProjectOverviewIsOpen = false;
@@ -293,12 +299,12 @@ namespace TimeTrackerITU.ViewModels
             EditStartTimeIsOpen = true;
             OverlayIsOpen = true;
         }
+
         public async Task CloseEditStartTime()
         {
             EditStartTimeIsOpen = false;
             OverlayIsOpen = false;
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

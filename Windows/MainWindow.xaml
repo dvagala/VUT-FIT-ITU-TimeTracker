@@ -152,14 +152,15 @@
                     <DataTemplate>
                         <Border BorderThickness="2 0 0 0" BorderBrush="Black">
                             <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                          AncestorType={x:Type Window}}, Path=DataContext.OpenEntryDetailCommand}" CommandParameter="{Binding}" 
-                                Height="70"
-                                MinWidth="300"
-                                Background="White"
-                                Foreground="Black"
-                                BorderBrush="White"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                ToolTip="MaterialDesignFlatButton">
+                                                AncestorType={x:Type Window}}, Path=DataContext.OpenEntryDetailCommand}" 
+                                    CommandParameter="{Binding}" 
+                                    Height="70"
+                                    MinWidth="300"
+                                    Background="White"
+                                    Foreground="Black"
+                                    BorderBrush="White"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    ToolTip="MaterialDesignFlatButton">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition MinWidth="140"/>
@@ -171,20 +172,24 @@
                                         <RowDefinition Height="40"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" 
-                                           Text="{Binding Description}"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Top">
+                                               Text="{Binding Description}"
+                                               HorizontalAlignment="left"
+                                               VerticalAlignment="Top">
                                     </TextBlock>
                                     <Button Grid.Row="1" Grid.Column="0" 
-                                        Background="{Binding Color}"
-                                        VerticalAlignment="Top"
-                                        Height="25"
-                                        FontSize="13">
+                                            Background="{Binding Color}"
+                                            VerticalAlignment="Top"
+                                            Height="25"
+                                            FontSize="13"
+                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                        AncestorType={x:Type Window}}, Path=DataContext.OpenProjectOverviewCommand}" 
+                                            CommandParameter="{Binding}"
+                                            Click="Button_Click">
                                         <TextBlock Text="{Binding Project}"></TextBlock>
                                     </Button>
                                     <TextBlock Grid.Row="0" Grid.Column="2" 
-                                           Text="{Binding Duration}"
-                                           HorizontalAlignment="Center">
+                                               Text="{Binding Duration}"
+                                               HorizontalAlignment="Center">
                                     </TextBlock>
                                 </Grid>
                             </Button>
@@ -194,7 +199,9 @@
             </ItemsControl>
         </StackPanel>
 
-        <Rectangle Fill="black" Opacity="0.8"  Visibility="{Binding OverlayIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" ></Rectangle>
+        <Rectangle Fill="black" Opacity="0.8"  
+                   Visibility="{Binding OverlayIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" >
+        </Rectangle>
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -208,27 +215,75 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1" Background="White"  Visibility="{Binding SettingsAreOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="-1.488,0.519" Margin="0,4,1,65" Grid.Column="1" Grid.RowSpan="2">
-
-                <Button Padding="0" Height="20" Width="20" Background="White" BorderBrush="White" HorizontalAlignment="Right" Foreground="Black" FontSize="16" Command="{Binding CloseSettingsCommand}" Content="X" RenderTransformOrigin="0.45,-0.85"></Button>
-                <TextBlock Margin="10,15,0,0" ><Run Text="Idle detection                             "/><CheckBox x:Name="Checkbox1" Background="#FF0027D4"  IsChecked="True" BorderBrush="#FF0327C9"/></TextBlock>
-                <TextBlock Name="timerUp" PreviewMouseLeftButtonDown="arrowControl_MouseLeftButtonDown"  Margin="0,0,45,0" HorizontalAlignment="Right">^</TextBlock>
+            <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+                        Background="White"  
+                        Visibility="{Binding SettingsAreOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
+                        Margin="0,0,0,65">
+                <Button Padding="0" Height="20" Width="20"
+                        Background="White"
+                        Foreground="Black"
+                        BorderBrush="White"
+                        FontSize="16"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Command="{Binding CloseSettingsCommand}" 
+                        Content="X">
+                </Button>
+                <TextBlock Margin="10,15,0,0" >
+                    <Run Text="Idle detection                             "/>
+                    <CheckBox x:Name="Checkbox1"
+                              Background="#FF0027D4"  
+                              IsChecked="True" 
+                              BorderBrush="#FF0327C9"/>
+                </TextBlock>
+                <TextBlock Name="timerUp" 
+                           PreviewMouseLeftButtonDown="arrowControl_MouseLeftButtonDown"  
+                           Margin="0,0,45,0" 
+                           HorizontalAlignment="Right">
+                    ^
+                </TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="10,4,0,0" Text="Turn off timer after "/>
-                    <TextBox Name="timerAfterText" TextAlignment="Center" Margin="25,0,0,0" BorderThickness="1" Width="25" Height="25" RenderTransformOrigin="0.45,1.632">15</TextBox>
-                    <TextBlock Margin="3,0,0,0" Height="17">mins</TextBlock>
+                    <TextBlock Margin="10,4,0,0" 
+                               Text="Turn off timer after "/>
+                    <TextBox Name="timerAfterText" 
+                             TextAlignment="Center" 
+                             Margin="25,0,0,0" 
+                             BorderThickness="1" 
+                             Width="25" Height="25">
+                        15
+                    </TextBox>
+                    <TextBlock Margin="3,0,0,0" Height="17">
+                        mins
+                    </TextBlock>
                 </StackPanel>
-                <TextBlock Name="timerDown" PreviewMouseLeftButtonDown="arrowControl_MouseLeftButtonDown" Margin="0,0,46,0" HorizontalAlignment="Right">v</TextBlock>
-
-
-                <Button Foreground="Red" Background="White" Margin="10,15,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Command="{Binding ProceedLogoutCommand}" BorderBrush="White" >Logout</Button>
-                <Button  Background="#0050BC" Margin="10,100,0,0" Width="75" VerticalAlignment="Bottom" HorizontalAlignment="Center"  Command="{Binding CloseSettingsCommand}" >OK</Button>
+                <TextBlock Name="timerDown" 
+                           PreviewMouseLeftButtonDown="arrowControl_MouseLeftButtonDown" 
+                           Margin="0,0,46,0" 
+                           HorizontalAlignment="Right">
+                    v
+                </TextBlock>
+                <Button Foreground="Red" 
+                        Background="White" 
+                        Margin="10,15,0,0" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Left" 
+                        Command="{Binding ProceedLogoutCommand}" 
+                        BorderBrush="White" >
+                    Logout
+                </Button>
+                <Button  Background="#0050BC" 
+                         Margin="10,100,0,0" 
+                         Width="75" 
+                         VerticalAlignment="Bottom" 
+                         HorizontalAlignment="Center"  
+                         Command="{Binding CloseSettingsCommand}" >
+                    OK
+                </Button>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" 
+            <StackPanel Grid.Column="1" Grid.Row="1"
                         Background="White"  
-                        Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" 
-                        Margin="0,0,1,0" Grid.Row="1" RenderTransformOrigin="0.451,0.507">
+                        Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}">
                 <Button Padding="0" Width="30" Height="30"
                         FontSize="16" Foreground="White" 
                         HorizontalAlignment="Right" 
@@ -267,8 +322,75 @@
                 </Button>
             </StackPanel>
 
-            <StackPanel Background="White"  Visibility="{Binding  AddTimeManuallyIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" RenderTransformOrigin="1.951,0.533" Grid.Row="1" Margin="68,1.2,0.2,68.4" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                <Button Padding="0" Height="20" Width="20" Background="White" BorderBrush="White" HorizontalAlignment="Right" Foreground="Black" FontSize="16" Command="{Binding CloseAddTimeManuallyCommand}" Content="X" RenderTransformOrigin="0.45,-0.85"></Button>
+            <StackPanel Grid.Column="1" Grid.Row="1"
+                        Background="White"  
+                        Visibility="{Binding ProjectOverviewIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}">
+                <Button Padding="0" Width="30" Height="30"
+                        FontSize="16" Foreground="White" 
+                        HorizontalAlignment="Right" 
+                        Command="{Binding CloseProjectOverviewCommand}"
+                        Style="{StaticResource MaterialDesignRaisedButton}">
+                    X
+                </Button>
+                <TextBlock Text="{Binding SelectedEntry.Project,  Mode=TwoWay}"
+                           Style="{StaticResource MaterialDesignTitleTextBlock}"
+                           Margin="10,0,0,0"/>
+                <TextBlock TextWrapping="Wrap"
+                           Margin="10,10,0,0">
+                    This month you have spent:
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap"
+                           Margin="10,0,0,0">
+                    <Run Text="{Binding SelectedEntry.Duration}"/>
+                    <Run Text="on this project"/>
+                </TextBlock>
+                
+                <Border BorderThickness="2 0 0 0" BorderBrush="Black" Margin="10,10,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Margin="10,0,0,0" Height="60" Grid.Row="0" Style="{StaticResource MaterialDesignBody2TextBlock}">
+                            03/09/2008
+                        </TextBlock>
+                        <Button Command="{Binding Path=DataContext.OpenEntryDetailCommand}" 
+                                CommandParameter="{Binding}" 
+                                Height="30"
+                                Background="White"
+                                Foreground="Black"
+                                FontSize="12"
+                                BorderBrush="White"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="MaterialDesignFlatButton"
+                                Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                MinWidth="200">
+                            <Grid Margin="0,0,0,0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" Text="{Binding SelectedEntry.Description}"></TextBlock>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" Text="{Binding SelectedEntry.Duration, StringFormat=hh\\:mm\\:ss}"></TextBlock>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Background="White"  
+                        Visibility="{Binding  AddTimeManuallyIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
+                        Grid.Row="1" Grid.Column="1">
+                <Button Padding="0" Height="20" Width="20" 
+                        Background="White" BorderBrush="White"
+                        Foreground="Black" FontSize="16" 
+                        HorizontalAlignment="Right" Command="{Binding CloseAddTimeManuallyCommand}" 
+                        Content="X">
+                </Button>
                 <ComboBox 
                    Name="newManualEntryProject"
                    materialDesign:HintAssist.Hint="Select project"
@@ -280,32 +402,30 @@
                    ItemsSource="{Binding Path=RecentDescriptions}" 
                    SelectedItem="{Binding Path=SelectedDescription}">
                 </ComboBox>
-                <ComboBox  
-          Name="newManualEntryTask"
-          Margin="20,10,0,0" 
-          IsEditable = "True"
-          materialDesign:HintAssist.Hint="What were you doing?" 
-          Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-          Width="140" 
-          HorizontalAlignment="Left" 
-          ItemsSource="{Binding Path=RecentProjects}"  
-          SelectedItem="{Binding Path=SelectedPoject}" />
+                <ComboBox Name="newManualEntryTask"
+                          Margin="20,10,0,0" 
+                          IsEditable = "True"
+                          materialDesign:HintAssist.Hint="What were you doing?" 
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                          Width="140" 
+                          HorizontalAlignment="Left" 
+                          ItemsSource="{Binding Path=RecentProjects}"  
+                          SelectedItem="{Binding Path=SelectedPoject}" />
                 <StackPanel Orientation="Horizontal" Height="50" >
-                    <TextBox
-            Name ="newManualEntrySince"
-            materialDesign:HintAssist.Hint="12:43"
-            BorderThickness="0"
-            Margin="20,15,0,10"
-            HorizontalAlignment="Left"
-            Width="30" ></TextBox>
+                    <TextBox Name ="newManualEntrySince"
+                             materialDesign:HintAssist.Hint="12:43"
+                             BorderThickness="0"
+                             Margin="20,15,0,10"
+                             HorizontalAlignment="Left"
+                             Width="30" >
+                    </TextBox>
                     <TextBlock Margin="2,20,0,10" Width="4">-</TextBlock>
-                    <TextBox
-            Name ="newManualEntryUntil"
-            materialDesign:HintAssist.Hint="16:07"
-            BorderThickness="0"
-            Margin="5,15,0,10"
-            HorizontalAlignment="Left"
-            Width="30" ></TextBox>
+                    <TextBox Name ="newManualEntryUntil"
+                             materialDesign:HintAssist.Hint="16:07"
+                             BorderThickness="0"
+                             Margin="5,15,0,10"
+                             HorizontalAlignment="Left"
+                             Width="30" ></TextBox>
                     <DatePicker Name="newManualEntryDate" BorderThickness="0" HorizontalAlignment="Left" Margin="2,15,0,0" Width="20" VerticalAlignment="Top"/>
                     <TextBox
               TextAlignment="Center"
@@ -318,52 +438,66 @@
                 <Button Margin="35" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100" >Add Entry</Button>
             </StackPanel>
 
-            <StackPanel Background="White"  Visibility="{Binding  EditEntryIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <StackPanel Background="White"
+                        Visibility="{Binding  EditEntryIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
+                        Grid.Column="1" Grid.Row="1">
                 <Button Padding="0" Height="20" Width="20" Background="White" BorderBrush="White" HorizontalAlignment="Right" Foreground="Black" FontSize="16" Command="{Binding CloseEditEntryCommand}" Content="X" RenderTransformOrigin="0.45,-0.85"></Button>
-                <ComboBox  materialDesign:HintAssist.Hint="Select project"
-                  materialDesign:TextFieldAssist.HasFilledTextField="True"
-                  IsEditable="True"
-                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                  Margin="20,10,0,0"
-                  Width="140" HorizontalAlignment="Left"
-                  ItemsSource="{Binding Path=RecentDescriptions}"
-                  SelectedItem="{Binding Path=SelectedDescription}">
+                <ComboBox materialDesign:HintAssist.Hint="Select project"
+                          materialDesign:TextFieldAssist.HasFilledTextField="True"
+                          IsEditable="True"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          Margin="20,10,0,0"
+                          Width="140" HorizontalAlignment="Left"
+                          ItemsSource="{Binding Path=RecentProjects}"
+                          SelectedItem="{Binding Path=SelectedPoject}">
                 </ComboBox>
-                <ComboBox
-          Margin="20,10,0,0"
-          IsEditable = "True"
-          materialDesign:HintAssist.Hint="What were you doing?"
-          Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-          Width="140"
-          HorizontalAlignment="Left"
-          ItemsSource="{Binding Path=RecentProjects}"
-          SelectedItem="{Binding Path=SelectedPoject}" />
+                <ComboBox Margin="20,10,0,0"
+                          IsEditable = "True"
+                          materialDesign:HintAssist.Hint="What were you doing?"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          Width="140"
+                          HorizontalAlignment="Left"
+                          ItemsSource="{Binding Path=RecentDescriptions}"
+                          SelectedItem="{Binding Path=SelectedDescription}" />
                 <StackPanel Orientation="Horizontal" Height="50">
-                    <TextBox
-            materialDesign:HintAssist.Hint="12:43"
-            BorderThickness="0"
-            Margin="20,15,0,10"
-            HorizontalAlignment="Left"
-            Width="30" ></TextBox>
+                    <TextBox materialDesign:HintAssist.Hint="12:43"
+                             BorderThickness="0"
+                             Margin="20,15,0,10"
+                             HorizontalAlignment="Left"
+                             Width="30" >
+                    </TextBox>
                     <TextBlock Margin="2,20,0,10" Width="4">-</TextBlock>
-                    <TextBox
-            materialDesign:HintAssist.Hint="16:07"
-            BorderThickness="0"
-            Margin="5,15,0,10"
-            HorizontalAlignment="Left"
-            Width="30" ></TextBox>
-                    <DatePicker BorderThickness="0" HorizontalAlignment="Left" Margin="2,15,0,0" Width="20" VerticalAlignment="Top"/>
-                    <TextBox
-                TextAlignment="Center"
-                materialDesign:HintAssist.Hint="4:51"
-                BorderThickness="0"
-                Margin="15,15,0,10"
-                HorizontalAlignment="Left"
-                Width="30" ></TextBox>
+                    <TextBox materialDesign:HintAssist.Hint="16:07"
+                             BorderThickness="0"
+                             Margin="5,15,0,10"
+                             HorizontalAlignment="Left"
+                             Width="30" ></TextBox>
+                    <DatePicker BorderThickness="0" 
+                                HorizontalAlignment="Left"
+                                Margin="2,15,0,0"
+                                Width="20"
+                                VerticalAlignment="Top"/>
+                    <TextBox TextAlignment="Center"
+                             materialDesign:HintAssist.Hint="4:51"
+                             BorderThickness="0"
+                             Margin="15,15,0,10"
+                             HorizontalAlignment="Left"
+                             Width="30" ></TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Height="110">
-                    <Button Margin="35,35,0,35" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100">Update Entry</Button>
-                    <Button Padding="0" Margin="30,0,0,0" Background="White" BorderBrush="white"  Width="20" Height="20">
+                <StackPanel Orientation="Horizontal"
+                            Height="110">
+                    <Button Margin="35,35,0,35" 
+                            FontSize="11" 
+                            Background="#0050BC" 
+                            HorizontalAlignment="Center"
+                            Width="100">
+                        Update Entry
+                    </Button>
+                    <Button Padding="0" 
+                            Margin="30,0,0,0" 
+                            Background="White" 
+                            BorderBrush="white" 
+                            Width="20" Height="20">
                         <Image Source="/images/Vector.png" Width="20" ></Image>
                     </Button>
                 </StackPanel>

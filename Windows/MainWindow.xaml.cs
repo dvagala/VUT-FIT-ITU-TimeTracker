@@ -17,6 +17,12 @@ namespace TimeTrackerITU.Windows
             DataContext = viewmodel;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Console.Write("inner");
+            e.Handled = true;
+        }
+
         private void arrowControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBlock blockObject = (TextBlock)sender;
