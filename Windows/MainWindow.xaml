@@ -533,7 +533,8 @@
                             FontSize="11" 
                             Background="#0050BC" 
                             HorizontalAlignment="Center"
-                            Width="100">
+                            Width="100"
+                            Command="{Binding CloseEditEntryCommand}">
                         Update Entry
                     </Button>
                         <Button Background="White" BorderThickness="0" Margin="30,0,5,0"
