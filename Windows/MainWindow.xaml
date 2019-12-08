@@ -526,13 +526,18 @@
                             Width="100">
                         Update Entry
                     </Button>
-                    <materialDesign:PackIcon Margin="30,0,5,0"
+                        <Button Background="White" BorderThickness="0" Margin="30,0,5,0"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Center"
-                                         Grid.Row="1" Grid.Column="0"
-                                         Kind="Delete" 
-                                         Foreground="{Binding ElementName=PasswordBox, Path=BorderBrush}" />
-                </StackPanel>
+                                         Grid.Row="1" Grid.Column="0"  
+                                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                 Command="{Binding DeleteEntryCommand}"
+                                >
+                            <materialDesign:PackIcon
+                                                 Kind="Delete" 
+                                                 Foreground="{Binding ElementName=PasswordBox, Path=BorderBrush}" />
+                        </Button>
+                    </StackPanel>
             </StackPanel>
             <StackPanel Background="White"  Visibility="{Binding  EditStartTimeIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"  Grid.Row="1" Grid.Column="1" Margin="1,4,0,157" >
                 <Button Padding="0" Height="20" Width="20" Background="White" BorderBrush="White" HorizontalAlignment="Right" Foreground="Black" FontSize="16" Command="{Binding CloseEditStartTimeCommand}" Content="X" RenderTransformOrigin="0.45,-0.85"></Button>

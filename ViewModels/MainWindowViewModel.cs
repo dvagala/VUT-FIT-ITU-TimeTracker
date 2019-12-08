@@ -17,7 +17,8 @@ namespace TimeTrackerITU.ViewModels
 
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-
+        
+        public ICommand DeleteEntryCommand { get; }
         public ICommand ProceedLoginCommand { get; }
         public ICommand ProceedLogoutCommand { get; }
         public ICommand OpenSettingsCommand { get; }
@@ -197,7 +198,8 @@ namespace TimeTrackerITU.ViewModels
         public MainWindowViewModel()
         {
 
-               ProceedLoginCommand = new AsyncCommand<string>(mockupString => ProceedLogin());
+            DeleteEntryCommand = new AsyncCommand<string>(mockupString => DeleteEntry());
+            ProceedLoginCommand = new AsyncCommand<string>(mockupString => ProceedLogin());
             ProceedLogoutCommand = new AsyncCommand<string>(mockupString => ProceedLogout());
             OpenSettingsCommand = new AsyncCommand<string>(mockupString => OpenSettings());
             CloseSettingsCommand = new AsyncCommand<string>(mockupString => CloseSettings());
@@ -313,6 +315,30 @@ namespace TimeTrackerITU.ViewModels
             }
             EditEntryIsOpen = false;
         }
+
+        
+
+        public async Task DeleteEntry()
+        {
+
+            OverlayIsOpen = false;
+            EntryDetailIsOpen = false;
+            EditEntryIsOpen = false;
+
+
+            foreach (var dayEntries in SortedEntriesByDay)
+            {
+                try
+                {
+                    dayEntries.Remove(SelectedEntry);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+        }
+
 
         public async Task OpenEntryDetail(EntryModel selectedEntry)
         {
