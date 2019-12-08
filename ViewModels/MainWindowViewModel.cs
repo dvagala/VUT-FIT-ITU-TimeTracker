@@ -9,10 +9,12 @@ using System.Windows.Input;
 using TimeTrackerITU.Commands;
 using TimeTrackerITU.Models;
 using TimeTrackerITU.Helpers;
+using System.Linq;
+using System.Windows.Threading;
 
 namespace TimeTrackerITU.ViewModels
 {
-    
+
     public class MainWindowViewModel : INotifyPropertyChanged
     {
 
@@ -37,7 +39,10 @@ namespace TimeTrackerITU.ViewModels
 
 
 
-        public ObservableCollection<EntryModel> Entries { get; set; } = new SampleEntryModels();
+        //public ObservableCollection<EntryModel> Entries { get; set; } = new SampleEntryModels();
+
+        public ObservableCollection<ObservableCollection<EntryModel>> SortedEntriesByDay { get; set; } = new SortedEntriesByDay();
+
 
         public ObservableCollection<UserModel> Users { get; set; } = new SampleUserModels();
 
@@ -49,11 +54,23 @@ namespace TimeTrackerITU.ViewModels
 
         public string SelectedDescription { get; set; } = "Doing backed";
 
+        public DateTime StartTimeOfTimer = new DateTime();
 
-        
+
+
+        private TimeSpan currentWorkDuration = new TimeSpan(0,0,0);
+        public TimeSpan CurrentWorkDuration
+        {
+            get => currentWorkDuration; set
+            {
+                currentWorkDuration = value;
+                OnPropertyChanged("CurrentWorkDuration");
+            }
+        }
+
 
         private EntryModel selectedEntry = new EntryModel();
-        public EntryModel SelectedEntry 
+        public EntryModel SelectedEntry
         {
             get => selectedEntry; set
             {
@@ -167,7 +184,7 @@ namespace TimeTrackerITU.ViewModels
                 OnPropertyChanged("ProjectOverviewIsOpen");
             }
         }
-      
+
         private bool editStartTimeIsOpen = false;
         public bool EditStartTimeIsOpen
         {
@@ -180,8 +197,9 @@ namespace TimeTrackerITU.ViewModels
 
         public MainWindowViewModel()
         {
+
             ProceedLoginCommand = new AsyncCommand<string>(mockupString => ProceedLogin());
-            ProceedLogoutCommand = new AsyncCommand<string>( mockupString =>  ProceedLogout());
+            ProceedLogoutCommand = new AsyncCommand<string>(mockupString => ProceedLogout());
             OpenSettingsCommand = new AsyncCommand<string>(mockupString => OpenSettings());
             CloseSettingsCommand = new AsyncCommand<string>(mockupString => CloseSettings());
             OpenEntryDetailCommand = new AsyncCommand<EntryModel>(selectedEntry => OpenEntryDetail(selectedEntry));
@@ -198,7 +216,7 @@ namespace TimeTrackerITU.ViewModels
             CloseEditStartTimeCommand = new AsyncCommand<string>(mockupString => CloseEditStartTime());
         }
 
-        
+
         public async Task ProceedLogout()
         {
             UserIsLoggedIn = false;
@@ -258,6 +276,7 @@ namespace TimeTrackerITU.ViewModels
 
         public async Task OpenEntryDetail(EntryModel selectedEntry)
         {
+            ProjectOverviewIsOpen = false;
             SelectedEntry = selectedEntry;
             OverlayIsOpen = true;
             EntryDetailIsOpen = true;
@@ -269,16 +288,67 @@ namespace TimeTrackerITU.ViewModels
             EntryDetailIsOpen = false;
         }
 
+        DispatcherTimer timer = new DispatcherTimer();
+
         public async Task RunTimer()
         {
             TimerIsRunning = true;
             TimerIsStopped = false;
+
+            StartTimeOfTimer = DateTime.Now;
+
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Tick += new EventHandler(this.OnTimerTick);
+            timer.Start();
         }
 
         public async Task StopTimer()
         {
             TimerIsRunning = false;
             TimerIsStopped = true;
+            timer.Stop();
+            currentWorkDuration = new TimeSpan(0, 0, 0);
+
+            TimeSpan origDuration = DateTime.Now - StartTimeOfTimer;
+
+
+            var random = new Random();
+            var listOfColors = new List<string> { "Green", "Blue", "Purple", "Orange", "Orange", "Pink"};
+            int randomIndex = random.Next(listOfColors.Count);
+
+            EntryModel newEntryModel = new EntryModel
+            {
+                Description = SelectedDescription,
+                Project = SelectedPoject,
+                StartTime = StartTimeOfTimer,
+                EndTime = DateTime.Now,
+                Duration = new TimeSpan((int)origDuration.TotalHours, (int)origDuration.TotalMinutes, (int)origDuration.TotalSeconds),
+                Color = listOfColors[randomIndex]
+            };
+
+
+            DateTime today = DateTime.Today;
+
+            foreach (var entriesInDay in SortedEntriesByDay)
+            {
+                if (today.ToShortDateString() == entriesInDay.First().StartTime.ToShortDateString())
+                {
+                    entriesInDay.Insert(0, newEntryModel);
+                    return;
+                }
+            }
+
+            ObservableCollection<EntryModel> newDayEntries = new ObservableCollection<EntryModel>();
+            newDayEntries.Add(newEntryModel);
+
+            SortedEntriesByDay.Insert(0, newDayEntries);
+        }
+
+
+        private void OnTimerTick(object state, EventArgs e)
+        {
+            CurrentWorkDuration += new TimeSpan(0, 0, 1);
         }
 
         public async Task OpenProjectOverview(EntryModel selectedEntry)

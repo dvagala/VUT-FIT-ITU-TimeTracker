@@ -99,7 +99,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DateTimeSwitchMonthDayConvertor.cs" />
+    <Compile Include="Converters\EntriesToSumDurationCoverter.cs" />
+    <Compile Include="Converters\EntriesToOneDateConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Helpers\SortedEntriesByDay.cs" />
     <Compile Include="Helpers\SampleUserModels.cs" />
     <Compile Include="Helpers\SampleEntryModels.cs" />
     <Compile Include="Models\UserModel.cs" />

@@ -46,6 +46,17 @@ namespace TimeTrackerITU.Helpers
                 Color = "Red"
             };
             this.Add(entryModel);
+
+            entryModel = new EntryModel
+            {
+                Description = "Doing backed",
+                Project = "redhat satelite",
+                StartTime = new DateTime(2008, 3, 9, 16, 5, 7, 123),
+                EndTime = new DateTime(2009, 3, 9, 18, 5, 7, 123),
+                Duration = new TimeSpan(4, 04, 53),
+                Color = "Red"
+            };
+            this.Add(entryModel);
         }
     }
 }

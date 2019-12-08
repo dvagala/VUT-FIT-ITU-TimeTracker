@@ -10,15 +10,20 @@
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         xmlns:viewModels="clr-namespace:TimeTrackerITU.ViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Time tracker ITU" Height="512" Width="350" MinWidth="350"
+        Title="Time tracker ITU" Height="600" Width="370" MinWidth="370"
         d:DataContext="{}">
+
 
 
     <Window.Resources>
         <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <converters:EntriesToSumDurationCoverter x:Key="EntriesToSumDurationCoverter" />
+        <converters:EntriesToOneDateConverter x:Key="EntriesToOneDateConverter" />
+        <converters:DateTimeSwitchMonthDayConvertor x:Key="DateTimeSwitchMonthDayConvertor" />
     </Window.Resources>
 
-    <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" >
+        <Grid>
         <StackPanel Margin="0,70,0,0" Visibility="{Binding UserIsNotLoggedIn, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}" RenderTransformOrigin="1.626,0.474">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -91,6 +96,7 @@
                           IsEditable="True"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           ItemsSource="{Binding Path=RecentProjects}"
+                          SelectedValue="{Binding Path=SelectedPoject}" 
                           Margin="10,0,0,0"
                           VerticalAlignment="Top"/>
                 <ComboBox Grid.Row="2" Grid.Column="0"
@@ -99,6 +105,7 @@
                           IsEditable="True"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           ItemsSource="{Binding Path=RecentDescriptions}"
+                          SelectedValue="{Binding Path=SelectedDescription}" 
                           Margin="10,0,0,0"/>
 
                 <Button Command="{Binding OpenSettingsCommand}" 
@@ -124,8 +131,9 @@
                         materialDesign:ButtonProgressAssist.Value="-1"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                         materialDesign:ButtonProgressAssist.IndicatorBackground="red"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
-                    00:02:48
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                        Content="{Binding CurrentWorkDuration, Mode=TwoWay}">
+                    
                 </Button>
                 <Button Grid.Row="2" Grid.Column="2"
                         Command="{Binding OpenAddTimeManuallyCommand}"
@@ -147,67 +155,81 @@
 
             <TextBlock Margin="20,20,0,0">You have worked 20 hours and 12 minutes this month</TextBlock>
 
-            <ItemsControl Margin="20,20,20,0" ItemsSource="{Binding Entries}" Grid.IsSharedSizeScope="True">
+            <ItemsControl Margin="20,20,20,50" ItemsSource="{Binding SortedEntriesByDay}" Grid.IsSharedSizeScope="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="2 0 0 0" BorderBrush="Black">
-                            <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                AncestorType={x:Type Window}}, Path=DataContext.OpenEntryDetailCommand}" 
-                                    CommandParameter="{Binding}" 
-                                    Height="70"
-                                    MinWidth="300"
-                                    Background="White"
-                                    Foreground="Black"
-                                    BorderBrush="White"
-                                    Style="{StaticResource MaterialDesignFlatButton}"
-                                    ToolTip="MaterialDesignFlatButton">
+
+                        <StackPanel>
+
+                            <ItemsControl Margin="20,20,20,0" ItemsSource="{Binding}" Grid.IsSharedSizeScope="True">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="2 0 0 0" BorderBrush="Black">
+                                            <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                        AncestorType={x:Type Window}}, Path=DataContext.OpenEntryDetailCommand}" 
+                                            CommandParameter="{Binding}" 
+                                            Height="70"
+                                            MinWidth="300"
+                                            Background="White"
+                                            Foreground="Black"
+                                            BorderBrush="White"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="MaterialDesignFlatButton">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition MinWidth="140"/>
+                                                        <ColumnDefinition MinWidth="10"/>
+                                                        <ColumnDefinition MinWidth="150"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="25"/>
+                                                        <RowDefinition Height="40"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                                                       Text="{Binding Description}"
+                                                       HorizontalAlignment="left"
+                                                       VerticalAlignment="Top">
+                                                    </TextBlock>
+                                                    <Button Grid.Row="1" Grid.Column="0" 
+                                                    Background="{Binding Color}"
+                                                    VerticalAlignment="Top"
+                                                    Height="25"
+                                                    FontSize="13"
+                                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                                AncestorType={x:Type Window}}, Path=DataContext.OpenProjectOverviewCommand}" 
+                                                    CommandParameter="{Binding}"
+                                                    Click="Button_Click">
+                                                        <TextBlock Text="{Binding Project}"></TextBlock>
+                                                    </Button>
+                                                    <TextBlock Grid.Row="0" Grid.Column="2" 
+                                                       Text="{Binding Duration}"
+                                                       HorizontalAlignment="Center">
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Button>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Border BorderThickness="2 0 0 0" BorderBrush="Black" Margin="20,0,0,0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition MinWidth="140"/>
                                         <ColumnDefinition MinWidth="10"/>
                                         <ColumnDefinition MinWidth="150"/>
                                     </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="40"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" 
-                                               Text="{Binding Description}"
-                                               HorizontalAlignment="left"
-                                               VerticalAlignment="Top">
-                                    </TextBlock>
-                                    <Button Grid.Row="1" Grid.Column="0" 
-                                            Background="{Binding Color}"
-                                            VerticalAlignment="Top"
-                                            Height="25"
-                                            FontSize="13"
-                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                        AncestorType={x:Type Window}}, Path=DataContext.OpenProjectOverviewCommand}" 
-                                            CommandParameter="{Binding}"
-                                            Click="Button_Click">
-                                        <TextBlock Text="{Binding Project}"></TextBlock>
-                                    </Button>
-                                    <TextBlock Grid.Row="0" Grid.Column="2" 
-                                               Text="{Binding Duration}"
-                                               HorizontalAlignment="Center">
-                                    </TextBlock>
+                                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="20,0,0,0" FontSize="12" Style="{StaticResource MaterialDesignBody2TextBlock}"  Text="{Binding  Path=. , Converter={StaticResource EntriesToOneDateConverter}}"></TextBlock>
+                                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" FontSize="12" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding  Path=. , Converter={StaticResource EntriesToSumDurationCoverter}}"></TextBlock>
                                 </Grid>
-                            </Button>
-                        </Border>
+                            </Border>
+
+                        </StackPanel>
+
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Border BorderThickness="2 0 0 0" BorderBrush="Black" Margin="20,0,0,0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="140"/>
-                        <ColumnDefinition MinWidth="10"/>
-                        <ColumnDefinition MinWidth="150"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="20,0,0,0" FontSize="12" Style="{StaticResource MaterialDesignBody2TextBlock}">03/09/2008</TextBlock>
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" FontSize="12" Style="{StaticResource MaterialDesignBody2TextBlock}">10:24:09</TextBlock>
-                </Grid>
-            </Border>
+
         </StackPanel>
 
         <Rectangle Fill="black" Opacity="0.8"  
@@ -313,12 +335,12 @@
                 <TextBlock Margin="10,0,0,0"
                            Style="{StaticResource MaterialDesignBody1TextBlock}">
                     <Run Text="Start: "/>
-                    <Run Text="{Binding SelectedEntry.StartTime,  Mode=TwoWay}"/>
+                    <Run Text="{Binding SelectedEntry.StartTime,  Mode=TwoWay, Converter={StaticResource DateTimeSwitchMonthDayConvertor}}"/>
                 </TextBlock>
                 <TextBlock Margin="10,0,0,0"
                            Style="{StaticResource MaterialDesignBody1TextBlock}">
                     <Run Text="Stop: "/>
-                    <Run Text="{Binding SelectedEntry.EndTime,  Mode=TwoWay}"/>
+                    <Run Text="{Binding SelectedEntry.EndTime,  Mode=TwoWay, Converter={StaticResource DateTimeSwitchMonthDayConvertor}}"/>
                 </TextBlock>
                 <TextBlock Margin="10,0,0,0"
                            Style="{StaticResource MaterialDesignBody1TextBlock}">
@@ -365,8 +387,8 @@
                         <TextBlock Margin="10,0,0,0" Height="60" Grid.Row="0" Style="{StaticResource MaterialDesignBody2TextBlock}">
                             03/09/2008
                         </TextBlock>
-                        <Button Command="{Binding Path=DataContext.OpenEntryDetailCommand}" 
-                                CommandParameter="{Binding}" 
+                        <Button Command="{Binding OpenEntryDetailCommand}" 
+                                CommandParameter="{Binding SelectedEntry}" 
                                 Height="30"
                                 Background="White"
                                 Foreground="Black"
@@ -536,4 +558,7 @@
 
 
     </Grid>
+
+    </ScrollViewer>
+
 </Window>
