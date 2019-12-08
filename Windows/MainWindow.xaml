@@ -21,7 +21,7 @@
         <converters:EntriesToOneDateConverter x:Key="EntriesToOneDateConverter" />
         <converters:DateTimeSwitchMonthDayConvertor x:Key="DateTimeSwitchMonthDayConvertor" />
     </Window.Resources>
-
+    <!-- Login screen, Author: Jiří Dvořák -->
     <ScrollViewer VerticalScrollBarVisibility="Hidden" >
         <Grid>
         <StackPanel Margin="0,70,0,0" Visibility="{Binding UserIsNotLoggedIn, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}" RenderTransformOrigin="1.626,0.474">
@@ -74,7 +74,7 @@
 
             </Grid>
         </StackPanel>
-
+        <!-- Main screen - tasks, Author: Jiří Dvořák -->
         <StackPanel x:Name="mainWindowRootLayout" 
                     Visibility="{Binding UserIsLoggedIn, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}">
             <Grid>
@@ -232,6 +232,7 @@
 
         </StackPanel>
 
+        <!-- Overlay, Author: Dominik Vagala -->
         <Rectangle Fill="black" Opacity="0.8"  
                    Visibility="{Binding OverlayIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}" >
         </Rectangle>
@@ -318,8 +319,8 @@
                     OK
                 </Button>
             </StackPanel>
-            
 
+                <!-- Entry details, Author: Jiří Dvořák -->
                 <StackPanel Grid.Column="1" Grid.Row="1"
                         Background="White"  
                         Visibility="{Binding EntryDetailIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
@@ -363,6 +364,7 @@
                 </Button>
             </StackPanel>
 
+            <!-- Project overview, Author: Jiří Dvořák -->
             <StackPanel Grid.Column="1" Grid.Row="1"
                         Background="White"  
                         Visibility="{Binding ProjectOverviewIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
