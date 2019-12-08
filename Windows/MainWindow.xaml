@@ -421,6 +421,7 @@
                 </Border>
             </StackPanel>
 
+            <!-- Add time manually overlay window. Author: Dominik Vagala -->
             <StackPanel Background="White"  
                         Visibility="{Binding  AddTimeManuallyIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
                         Grid.Row="1" Grid.Column="1"
@@ -478,6 +479,7 @@
                 </StackPanel>
                     <Button Margin="35" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100" Command="{Binding SaveAddTimeManuallyCommand}" >Add Entry</Button>
             </StackPanel>
+
 
             <StackPanel Background="White"
                         Visibility="{Binding  EditEntryIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"

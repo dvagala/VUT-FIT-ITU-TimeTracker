@@ -1,4 +1,6 @@
-﻿using System;
+﻿// View model for whole app. Author: Dominik Vagala
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
