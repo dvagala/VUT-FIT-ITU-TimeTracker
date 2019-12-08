@@ -243,15 +243,15 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="5*" />
-                <RowDefinition Height="1*" />
+                <RowDefinition Height="150" />
+                <RowDefinition Height="250" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+            <StackPanel Grid.Row="1" Grid.Column="1" 
                         Background="White"  
                         Visibility="{Binding SettingsAreOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
-                        Margin="0,0,0,65">
+                        Margin="0,0,0,0">
                 <Button Padding="0" Height="20" Width="20"
                         Background="White"
                         Foreground="Black"
@@ -271,7 +271,7 @@
                 </TextBlock>
                 <TextBlock Name="timerUp" 
                            PreviewMouseLeftButtonDown="arrowControl_MouseLeftButtonDown"  
-                           Margin="0,0,45,0" 
+                           Margin="0,0,55,0" 
                            HorizontalAlignment="Right">
                     ^
                 </TextBlock>
@@ -291,7 +291,7 @@
                 </StackPanel>
                 <TextBlock Name="timerDown" 
                            PreviewMouseLeftButtonDown="arrowControl_MouseLeftButtonDown" 
-                           Margin="0,0,46,0" 
+                           Margin="0,0,56,0" 
                            HorizontalAlignment="Right">
                     v
                 </TextBlock>
@@ -417,7 +417,7 @@
 
             <StackPanel Background="White"  
                         Visibility="{Binding  AddTimeManuallyIsOpen, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=False}"
-                        Grid.Row="1" Grid.Column="1">
+                        Grid.Row="1" Grid.Column="1" >
                 <Button Padding="0" Height="20" Width="20" 
                         Background="White" BorderBrush="White"
                         Foreground="Black" FontSize="16" 
@@ -468,7 +468,7 @@
               HorizontalAlignment="Left"
               Width="30" ></TextBox>
                 </StackPanel>
-                <Button Margin="35" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100" >Add Entry</Button>
+                    <Button Margin="35" FontSize="11" Background="#0050BC" HorizontalAlignment="Center" Width="100" Command="{Binding SaveAddTimeManuallyCommand}" >Add Entry</Button>
             </StackPanel>
 
             <StackPanel Background="White"

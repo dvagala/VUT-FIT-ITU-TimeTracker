@@ -35,24 +35,23 @@ namespace TimeTrackerITU.ViewModels
         public ICommand OpenEditStartTimeCommand { get; }
         public ICommand CloseEditStartTimeCommand { get; }
         public ICommand AddNewEntryCommand { get; }
+        public ICommand SaveAddTimeManuallyCommand { get; }
 
+        
 
-
-
-        //public ObservableCollection<EntryModel> Entries { get; set; } = new SampleEntryModels();
 
         public ObservableCollection<ObservableCollection<EntryModel>> SortedEntriesByDay { get; set; } = new SortedEntriesByDay();
 
 
         public ObservableCollection<UserModel> Users { get; set; } = new SampleUserModels();
 
-        public ObservableCollection<String> RecentProjects { get; set; } = new ObservableCollection<String>() { "ITU project", "redhat satelite" };
+        public ObservableCollection<String> RecentProjects { get; set; } = new ObservableCollection<String>() { "School project ITU", "School project IM", "Redhat satelite"};
 
-        public ObservableCollection<String> RecentDescriptions { get; set; } = new ObservableCollection<String>() { "Doing backed", "redhat satelite" };
+        public ObservableCollection<String> RecentDescriptions { get; set; } = new ObservableCollection<String>() { "Finishing database", "Creating simulation", "Testing new features" };
 
-        public string SelectedPoject { get; set; } = "ITU project";
+        public string SelectedPoject { get; set; } = "School project ITU";
 
-        public string SelectedDescription { get; set; } = "Doing backed";
+        public string SelectedDescription { get; set; } = "Finishing database";
 
         public DateTime StartTimeOfTimer = new DateTime();
 
@@ -198,7 +197,7 @@ namespace TimeTrackerITU.ViewModels
         public MainWindowViewModel()
         {
 
-            ProceedLoginCommand = new AsyncCommand<string>(mockupString => ProceedLogin());
+               ProceedLoginCommand = new AsyncCommand<string>(mockupString => ProceedLogin());
             ProceedLogoutCommand = new AsyncCommand<string>(mockupString => ProceedLogout());
             OpenSettingsCommand = new AsyncCommand<string>(mockupString => OpenSettings());
             CloseSettingsCommand = new AsyncCommand<string>(mockupString => CloseSettings());
@@ -206,6 +205,7 @@ namespace TimeTrackerITU.ViewModels
             CloseEntryDetailCommand = new AsyncCommand<EntryModel>(selectedEntry => CloseEntryDetail());
             OpenAddTimeManuallyCommand = new AsyncCommand<string>(mockupString => OpenAddTimeManually());
             CloseAddTimeManuallyCommand = new AsyncCommand<string>(mockupString => CloseAddTimeManually());
+            SaveAddTimeManuallyCommand = new AsyncCommand<string>(mockupString => SaveAddTimeManually());
             OpenEditEntryCommand = new AsyncCommand<string>(mockupString => OpenEditEntry());
             CloseEditEntryCommand = new AsyncCommand<string>(mockupString => CloseEditEntry());
             RunTimerCommand = new AsyncCommand<string>(mockupString => RunTimer());
@@ -253,6 +253,46 @@ namespace TimeTrackerITU.ViewModels
         {
             OverlayIsOpen = false;
             AddTimeManuallyIsOpen = false;
+        }
+
+
+
+        public async Task SaveAddTimeManually()
+        {
+            OverlayIsOpen = false;
+            AddTimeManuallyIsOpen = false;
+
+            var random = new Random();
+            var listOfColors = new List<string> { "Green", "Blue", "Purple", "Orange", "Orange", "Pink" };
+            int randomIndex = random.Next(listOfColors.Count);
+
+
+            EntryModel newEntryModel = new EntryModel
+            {
+                Description = SelectedDescription,
+                Project = SelectedPoject,
+                StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour - 4, DateTime.Now.Minute, DateTime.Now.Second),
+                EndTime = DateTime.Now,
+                Duration = new TimeSpan(4, 26, 0),
+                Color = listOfColors[randomIndex]
+            };
+
+            DateTime today = DateTime.Today;
+
+            foreach (var entriesInDay in SortedEntriesByDay)
+            {
+                if (today.ToShortDateString() == entriesInDay.First().StartTime.ToShortDateString())
+                {
+                    entriesInDay.Insert(0, newEntryModel);
+                    return;
+                }
+            }
+
+            ObservableCollection<EntryModel> newDayEntries = new ObservableCollection<EntryModel>();
+            newDayEntries.Add(newEntryModel);
+
+            SortedEntriesByDay.Insert(0, newDayEntries);
+
         }
 
         public async Task OpenEditEntry()

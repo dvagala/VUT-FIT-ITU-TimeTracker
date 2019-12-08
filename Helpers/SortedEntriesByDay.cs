@@ -8,6 +8,7 @@ using TimeTrackerITU.Models;
 
 namespace TimeTrackerITU.Helpers
 {
+
     public class SortedEntriesByDay : ObservableCollection<ObservableCollection<EntryModel>>
     {
         public SortedEntriesByDay()
@@ -16,8 +17,8 @@ namespace TimeTrackerITU.Helpers
 
             EntryModel entryModel = new EntryModel
             {
-                Description = "Doing front end",
-                Project = "ITU project",
+                Description = "Finishing database",
+                Project = "School project ITU",
                 StartTime = new DateTime(2019, 9, 4, 16, 5, 7, 123),
                 EndTime = new DateTime(2019, 9, 4, 18, 5, 7, 123),
                 Duration = new TimeSpan(2, 14, 23),
@@ -28,10 +29,21 @@ namespace TimeTrackerITU.Helpers
 
             entryModel = new EntryModel
             {
-                Description = "Doing nothung",
-                Project = "Secret",
+                Description = "Creating simulation",
+                Project = "School project IM",
                 StartTime = new DateTime(2019, 9, 4, 10, 5, 7, 123),
                 EndTime = new DateTime(2019, 9, 4, 13, 5, 7, 123),
+                Duration = new TimeSpan(4, 04, 53),
+                Color = "Red"
+            };
+            dayEntries1.Add(entryModel);
+
+            entryModel = new EntryModel
+            {
+                Description = "Doing backed",
+                Project = "Redhat satelite",
+                StartTime = new DateTime(2019, 9, 4, 16, 5, 7, 123),
+                EndTime = new DateTime(2019, 9, 4, 18, 5, 7, 123),
                 Duration = new TimeSpan(4, 04, 53),
                 Color = "Orange"
             };
@@ -40,22 +52,11 @@ namespace TimeTrackerITU.Helpers
             entryModel = new EntryModel
             {
                 Description = "Doing backed",
-                Project = "redhat satelite",
+                Project = "Redhat satelite",
                 StartTime = new DateTime(2019, 9, 4, 16, 5, 7, 123),
                 EndTime = new DateTime(2019, 9, 4, 18, 5, 7, 123),
                 Duration = new TimeSpan(4, 04, 53),
-                Color = "Red"
-            };
-            dayEntries1.Add(entryModel);
-
-            entryModel = new EntryModel
-            {
-                Description = "Doing backed",
-                Project = "redhat satelite",
-                StartTime = new DateTime(2019, 9, 4, 16, 5, 7, 123),
-                EndTime = new DateTime(2019, 9, 4, 18, 5, 7, 123),
-                Duration = new TimeSpan(4, 04, 53),
-                Color = "Red"
+                Color = "Orange"
             };
             dayEntries1.Add(entryModel);
 
@@ -68,8 +69,8 @@ namespace TimeTrackerITU.Helpers
 
             entryModel = new EntryModel
             {
-                Description = "Second",
-                Project = "ITU project",
+                Description = "Finishing database",
+                Project = "School project ITU",
                 StartTime = new DateTime(2019, 9, 3, 16, 5, 7, 123),
                 EndTime = new DateTime(2019, 9, 3, 18, 5, 7, 123),
                 Duration = new TimeSpan(2, 14, 23),
@@ -80,8 +81,8 @@ namespace TimeTrackerITU.Helpers
 
             entryModel = new EntryModel
             {
-                Description = "Doing nothung",
-                Project = "Secret",
+                Description = "Testing new features",
+                Project = "Redhat satelite",
                 StartTime = new DateTime(2019, 9, 3, 10, 5, 7, 123),
                 EndTime = new DateTime(2019, 9, 3, 13, 5, 7, 123),
                 Duration = new TimeSpan(4, 04, 53),
@@ -91,12 +92,12 @@ namespace TimeTrackerITU.Helpers
 
             entryModel = new EntryModel
             {
-                Description = "Doing backed",
-                Project = "redhat satelite",
+                Description = "Testing new features",
+                Project = "Redhat satelite",
                 StartTime = new DateTime(2019, 9, 3, 16, 5, 7, 123),
                 EndTime = new DateTime(2019, 9, 3, 18, 5, 7, 123),
                 Duration = new TimeSpan(4, 04, 53),
-                Color = "Red"
+                Color = "Orange"
             };
             dayEntries2.Add(entryModel);           
 
