@@ -125,16 +125,26 @@
                     Start
                 </Button>
                 <Button Command="{Binding StopTimerCommand}"
+                        x:Name="timerButton"
                         Visibility="{Binding TimerIsRunning, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter} , ConverterParameter=False}"
                         Grid.Row="1" Grid.Column="2"
-                        Style="{StaticResource MaterialDesignRaisedAccentButton}"
                         materialDesign:ButtonProgressAssist.Value="-1"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                         materialDesign:ButtonProgressAssist.IndicatorBackground="red"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                        Content="{Binding CurrentWorkDuration, Mode=TwoWay}">
-                    
-                </Button>
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignRaisedAccentButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="Button.IsMouseOver" Value="True">
+                                        <Setter Property="Content" Value="Stop" />
+                                    </Trigger>
+                                    <Trigger Property="Button.IsMouseOver" Value="False">
+                                        <Setter Property="Content" Value="{Binding CurrentWorkDuration, Mode=TwoWay}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 <Button Grid.Row="2" Grid.Column="2"
                         Command="{Binding OpenAddTimeManuallyCommand}"
                         FontSize="11"
