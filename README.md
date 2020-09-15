@@ -1,4 +1,7 @@
-# TimeTrackerITU
+# Time Tracker
 
-## Figma
-https://www.figma.com/file/YO2kWgBIKQUaBb32vLKXnz/ITU?node-id=0%3A1
+This was my school project in course ITU in VUT FIT. C# WPF appliacation for time tracking.
+
+year: 2019
+
+40/55b
